@@ -11,7 +11,3 @@ cd ./samba-3.4.5/source3/
 ./configure --prefix=/samba
 make
 make install
-
-# setting necessary variables
-export PATH=/samba/bin/:/samba/sbin/:$PATH
-export LD_LIBRARY_PATH="/samba/lib:$LD_LIBRARY_PATH"
