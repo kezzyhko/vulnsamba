@@ -16,3 +16,14 @@ make install
 # copy config
 cd /workdir
 cp smb.conf /samba/lib/smb.conf
+
+# public share
+mkdir /public
+chown nobody:nogroup /public
+chmod 777 /public
+
+# private share
+mkdir /private
+echo "You f0und 7he s3cret!" > /private/secret.txt
+chown root:root /private
+chmod 777 /private
