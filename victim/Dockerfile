@@ -10,4 +10,4 @@ RUN ./install-samba.sh
 EXPOSE 445
 EXPOSE 139
 
-CMD smbd -iF
+CMD smbd -D & bash
