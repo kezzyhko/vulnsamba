@@ -1,6 +1,6 @@
 # installing packages
 apt-get update
-apt-get install curl make gcc -y
+apt-get install curl make gcc -y --fix-missing
 
 # downloading samba sources
 cd /workdir
