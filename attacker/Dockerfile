@@ -1,4 +1,4 @@
-FROM python:3.9.2
+FROM ubuntu:20.04
 
 ENV PATH=/samba/bin/:/samba/sbin/:$PATH
 ENV LD_LIBRARY_PATH="/samba/lib:$LD_LIBRARY_PATH"
