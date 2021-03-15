@@ -78,12 +78,27 @@ You should see the following string: `You f0und 7he s3cret!`
 
 
 ### Information and links
-TODO
+More on mitre: [CVE-2017-2619](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-2619)<br>
+Categories: [CWE-59 Link Following](https://cwe.mitre.org/data/definitions/59.html) and [CWE-362 Race Condition](https://cwe.mitre.org/data/definitions/362.html)<br>
+Vulnerable version: `samba-4.5.2`<br>
+Exploit was taken from: https://www.exploit-db.com/exploits/41740
 
 
 ### Containers description
-TODO
+
+* `victim` container contains:
+  * `samba-4.5.2`, which was built from the sources
+  * configuration to have `public` share
+  * `\secret` - file inside the root directory
+* `attacker` container contains patched version of `samba-4.5.2` client. Patch adds two commands to `smbclient`:
+  * `rename_loop <src1> <src2> <dest>` - infinite loop, which renames `<src*>` to `<dest>` and then back, so that `<dest>` will constantly switch between being `<src1>` and `<src2>`
+  * `dump <file>` - infinite loop, which constantly tries to output `<file>`'s contents and ignores errors
 
 
 ### Instructions to reproduce
+
+1. Pull the needed images from dockerhub<br>
+`docker pull kezzyhko/cve-2017-2619_victim`<br>
+`docker pull kezzyhko/cve-2017-2619_attacker`
+
 TODO
