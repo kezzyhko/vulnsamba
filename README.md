@@ -29,7 +29,8 @@ For each CVE, there are two docker containers: `victim` and `attacker`.
 More on mitre: [CVE-2010-0926](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2010-0926)<br>
 Category: [CWE-22 Path Traversal](https://cwe.mitre.org/data/definitions/22.html)<br>
 Vulnerable version: `samba-3.4.5`<br>
-Exploit was taken from: https://www.exploit-db.com/exploits/33599
+Exploit was taken from: https://www.exploit-db.com/exploits/33599<br>
+Another guide that helped me in creating this one: https://github.com/roughiz/Symlink-Directory-Traversal-smb-manually
 
 
 ### Containers description
@@ -147,13 +148,13 @@ Remember it, we will need it to connect to the server
    `dump switching/secret`<br>
    
    1. Some explanation<br>
-   At this point, out `attacker_2` client is reading from `switching/secret`, which might be either `link/secret` or `dir/secret`. Theoretically, `smbd` on the `victim` container might check that reading from `switching` is ok, since it is just `dir` inside the share, but then our second attacker will change `switching` to be the `link`, and `victim` will read from `link/secret`, which is equivalent to just `/secret` outside the `public` share.<br>
-   Howerver, it is not very likely for this to happen, and it may take a long time to wait. For the sake of PoC, we will slow down the `attacker_2`
+   At this point, out `attacker_2` client is reading from `switching/secret`, which might be either `link/secret` or `dir/secret`. Theoretically, `smbd` on the `victim` container might check that reading from `switching` is ok, since it is just `dir` inside the share, but then our `attacker_1` will change `switching` to be the `link`, and `victim` will read from `link/secret`, which is equivalent to just `/secret` outside the `public` share.<br>
+   However, it is not very likely for this to happen, and it may take a long time to wait. For the sake of PoC, we will slow down the `attacker_2`
    
-   1. find out the pid of `smbd` proccess, which handles the `attacker_2`<br>
+   1. find out the pid of `smbd` process, which handles the `attacker_2`<br>
    For this, run `ps aux` in the `victim` container. The pid we are looking for should be the largest pid with `smbd -D` command.
    
-   1. Artificially slow down the proccess<br>
+   1. Artificially slow down the process<br>
    `strace -p<pid>`
    
    1. Now, look at the output in `attacker_2` process. You should see the following string: `You f0und 7he s3cret!`
